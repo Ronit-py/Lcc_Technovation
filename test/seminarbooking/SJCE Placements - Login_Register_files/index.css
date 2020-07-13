@@ -1,0 +1,57 @@
+#loginPanel {
+    margin: 0 auto;
+    background-color: #62b6cb;
+}
+
+.loginBar {
+    margin: 0 auto;
+}
+
+.left-45 {
+    float: left;
+    width: 0%;
+    display: none;
+}
+.row.loginBar.container{
+    height: auto;
+    width: 70%;
+}
+
+.right-55 {
+    float: right;
+    width: 100%;
+}
+
+.white_para {
+    color: white;
+    padding: 15px 15px 15px 0px;
+    text-align: justify;
+}
+
+@media screen and (max-width:768px) {
+    #loginPanel {
+        padding: 20px;
+    }
+    .myHeader {
+        margin: 0 auto;
+    }
+    .myHeader>img {
+        float: right;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (min-width:975px) {
+    #loginPanel {
+        padding: 20px;
+    }
+    .left-45 {
+        float: left;
+        width: 45% !important;
+        display: block !important;
+    }
+    .right-55 {
+        float: right;
+        width: 55% !important;
+    }
+}
