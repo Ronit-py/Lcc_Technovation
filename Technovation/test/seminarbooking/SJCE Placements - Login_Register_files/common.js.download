@@ -1,0 +1,99 @@
+// This JS contains all the functions that are commonly used in many files.
+
+// This is function to show snack bar
+function showSnackBar(alertText) {
+    var x = document.getElementById("snackbar")
+    x.innerHTML = alertText;
+    x.className = "show";
+    setTimeout(function() { x.className = x.className.replace("show", ""); }, 5000);
+}
+
+// This function is for switching of tabs and calculating tab widths
+$('.tab-custom-item').click(function() {
+    var tab_id = $(this).attr('data-tab');
+    $(this).siblings().removeClass('tabhead-active');
+    $('.tab-content').removeClass('tab-active');
+
+    $(this).addClass('tabhead-active');
+    $('#' + tab_id).addClass('tab-active');
+});
+
+// The following is part of JS for accordians to work
+var accOpenPanel = null;
+var accActiveBtn = null;
+
+$('.acc-btn').click(function() {
+    if (accOpenPanel != null && accActiveBtn != this) {
+        if (accOpenPanel.style.maxHeight) {
+            accOpenPanel.style.maxHeight = null;
+            accOpenPanel.style.borderTop = null;
+            $(accActiveBtn).toggleClass('active');
+            accOpenPanel = null;
+            accActiveBtn = null;
+        }
+    }
+
+    $(this).toggleClass('active');
+    var panel = $(this).closest('.acc-main').children('.acc-body')[0];
+
+    if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+        panel.style.borderTop = null;
+        accOpenPanel = null;
+        accActiveBtn = null;
+    } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        panel.style.borderTop = "1px solid #ccc";
+        accOpenPanel = panel;
+        accActiveBtn = this;
+    }
+});
+
+// The following is part of JS for dropdowns to work
+
+$('.dropdown-btn').click(function() {
+    $(this).toggleClass('active');
+    var panel = $(this).closest('.dropdown-main').children('.dropdown-list')[0];
+
+    if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+        panel.style.margin = "0px";
+    } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        panel.style.margin = "10px 0px";
+    }
+});
+
+$('.cat-item').click(function() {
+    var oth = $('#cat_oth');
+    var val = $(this).html();
+    if (val == "Others")
+        $(oth).addClass('active');
+    else
+        $(oth).removeClass('active');
+});
+
+$('.dropdown-item').click(function() {
+    var parentMain = $(this).closest('.dropdown-main')[0];
+    var formParent = $(this).closest('.form-right');
+    var parentHead = $(parentMain).children('.dropdown-head')[0];
+    var parentVal = $(parentHead).children('.dropdown-value')[0];
+
+    var parentBtns = $(parentHead).children('.dropdown-bs')[0];
+    var btn = $(parentBtns).children('.dropdown-btn')[0];
+    $(btn).toggleClass('active');
+
+    var panel = $(parentMain).children('.dropdown-list')[0];
+
+    if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+        panel.style.margin = "0px";
+    } else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        panel.style.margin = "10px 0px";
+    }
+    parentVal.innerHTML = $(this).html();
+    parentVal.setAttribute("data-select", $(this).html());
+    var dataCode = $(this).attr("data-value");
+    parentVal.setAttribute("data-code", dataCode);
+});

@@ -1,0 +1,211 @@
+// This JS file common for all forms to be validated by POSTing via AJAX
+
+
+
+
+// The following feedback form found in feedback.php
+$("#feedback-form").submit(function(event) {
+    event.preventDefault();
+    var $form = $(this),
+        url = $form.attr('action');
+    var form_data = new FormData(this);
+
+    var comp = $(this).find('#cname')[0].getAttribute('data-select');
+    if (comp == "none") {
+        showSnackBar("Please select a company");
+        return;
+    }
+
+    form_data.append('cname', comp);
+
+    $.ajax({
+        url: url,
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function(data) {
+            if (data == 'success') {
+                $form[0].reset();
+                console.log("success");
+                showSnackBar("Feedback successfully recorded.");
+            } else {
+                console.log(data);
+                showSnackBar("Failed to record feedback.\n" + data);
+            }
+
+        }
+    });
+});
+
+// The following forms are found in index.php
+// Login form
+$("#lgn_form").submit(function(event) {
+    event.preventDefault();
+    var $form = $(this),
+        url = $form.attr('action');
+    var form_data = new FormData(this);
+
+    $.ajax({
+        url: url,
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function(data) {
+            if (data == "Success1") {
+                $form[0].reset();
+                window.location.href = "home.php";
+            } else if (data == "Success2") {
+                $form[0].reset();
+                window.location.href = "studentDetails.php";
+            } else if (data == "Success3") {
+                $form[0].reset();
+                window.location.href = "update/index.php";
+            } else if (data == "Success4") {
+                $form[0].reset();
+                window.location.href = "admin/index.php";
+            } else if (data == "Success5") {
+                $form[0].reset();
+                window.location.href = "PS/index.php";
+            } else {
+                showSnackBar(data);
+                $form[0].reset();
+            }
+        }
+    });
+});
+
+// Register Form
+$("#rgstr_form").submit(function(event) {
+    event.preventDefault();
+    var $form = $(this),
+        url = $form.attr('action');
+    var form_data = new FormData(this);
+
+    var psw = $(this).find('#psw').val();
+    psw = String(psw);
+    if (psw.length < 8) {
+        showSnackBar("Password should be of minimum 8 characters.");
+        return;
+    }
+    var cpsw = $(this).find('#cpsw').val();
+    cpsw = String(cpsw);
+    if (psw != cpsw) {
+        showSnackBar("Please enter the same password.");
+        return;
+    }
+
+    $.ajax({
+        url: url,
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function(data) {
+            showSnackBar(data);
+            $form[0].reset();
+        }
+    });
+});
+
+// Forgot Password
+$("#frgtPwdLink").click(function(event) {
+    var usn = $("#lgn_usn").val();
+    if (usn == "") {
+        showSnackBar("Enter USN.");
+        return;
+    }
+
+    var form = $(this).closest('form')[0];
+    console.log(form);
+    var form_data = new FormData(form);
+    $.ajax({
+        url: "forgotPassword.php",
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function(data) {
+            showSnackBar(data);
+            $form[0].reset();
+        }
+    });
+});
+
+// The following form is found in resetPassword.php and in settings.php
+$("#pwdForm").submit(function(event) {
+    event.preventDefault();
+    var $form = $(this),
+        url = $form.attr('action');
+    var form_data = new FormData(this);
+
+    var pwdType = form_data.get("type");
+    var psw = $(this).find('#updt_pwd').val();
+    psw = String(psw);
+    if (psw.length < 8) {
+        showSnackBar("Password should be of minimum 8 characters.");
+        return;
+    }
+    var cpsw = $(this).find('#reupdt_pwd').val();
+    cpsw = String(cpsw);
+    if (psw != cpsw) {
+        showSnackBar("Please enter the same password.");
+        return;
+    }
+
+    $.ajax({
+        url: url,
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function(data) {
+            showSnackBar(data);
+            $form[0].reset();
+            if (pwdType == "resetPwd") {
+                if (data == "Password updated") {
+                    setTimeout(function() {
+                        showSnackBar("Redirecting to login. . .");
+                    }, 6000);
+                    setTimeout(function() {
+                        window.location.href = "index.php";
+                    }, 6000);
+                }
+            }
+
+        }
+    });
+});
+
+// The following are forms found in settings.php
+$("#emailUpdForm, #phoneUpdForm").submit(function(event) {
+    event.preventDefault();
+    var $form = $(this),
+        url = $form.attr('action');
+    var form_data = new FormData(this);
+
+    $.ajax({
+        url: url,
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: function(data) {
+            showSnackBar(data);
+            $form[0].reset();
+        }
+    });
+});
