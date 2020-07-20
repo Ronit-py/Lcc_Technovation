@@ -82,7 +82,7 @@
         while($row = mysqli_fetch_assoc($result)) {
           $date = date('D d M',strtotime($row['date']));
           $check_in = date('h:m a',strtotime($row['check_in']));
-          $check_out = date('h:m a',strtotime($row['check_in']));
+          $check_out = date('h:m a',strtotime($row['check_out']));
           $client_name = $row['name'];
           $client_mail = $row['mail_id'];
           $client_phone = $row['phone'];
